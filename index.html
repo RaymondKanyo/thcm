@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Taylor Hoffman Inc. – Research Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #050816;
+      --bg-elevated: #0b1020;
+      --accent: #4f46e5;
+      --accent-soft: rgba(79, 70, 229, 0.12);
+      --accent-border: rgba(129, 140, 248, 0.6);
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148, 163, 184, 0.25);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
+      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.6);
+      --success: #22c55e;
+      --danger: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 40%, #020617 100%);
+      color: var(--text-main);
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 48px;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(20px);
+      background: rgba(2, 6, 23, 0.88);
+      padding-bottom: 16px;
+      z-index: 100;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      gap: 12px;
+    }
+
+    .brand-title {
+      font-size: 1.3rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .brand-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .brand-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .back-btn {
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-size: 0.78rem;
+      border: 1px solid rgba(148,163,184,0.55);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      cursor: pointer;
+      display: none;
+      white-space: nowrap;
+    }
+
+    .back-btn:hover {
+      background: rgba(15,23,42,1);
+    }
+
+    .search-upload-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .search-container {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: radial-gradient(circle at top left, #111827, #020617);
+      border-radius: 999px;
+      padding: 10px 14px;
+      border: 1px solid var(--border-subtle);
+      width: 100%;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .search-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text-main);
+      font-size: 0.95rem;
+    }
+
+    .btn-upload {
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: var(--accent);
+      color: #e5e7eb;
+      border: none;
+      cursor: pointer;
+      font-size: 0.82rem;
+      white-space: nowrap;
+      transition: box-shadow 0.1s ease, transform 0.1s ease;
+      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.7);
+    }
+
+    .btn-upload:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.9);
+    }
+
+    /* Dropdown */
+    .results-dropdown {
+      position: absolute;
+      top: 48px;
+      left: 0;
+      right: 0;
+      background: #020617;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      display: none;
+      z-index: 50;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .results-dropdown.visible { display: block; }
+
+    .result-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      transition: background 0.12s ease;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .result-item:hover {
+      background: rgba(79,70,229,0.08);
+    }
+
+    .result-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .result-name {
+      font-size: 0.88rem;
+    }
+
+    .result-sector {
+      font-size: 0.76rem;
+      color: var(--text-muted);
+    }
+
+    .result-ticker-pill {
+      border-radius: 999px;
+      padding: 3px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      font-size: 0.78rem;
+    }
+
+    /* Menu Hub */
+    .menu-hub {
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .menu-card {
+      border-radius: 16px;
+      border: 1px solid rgba(55, 65, 81, 0.85);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      box-shadow: var(--shadow-subtle);
+      padding: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 110px;
+      transition: transform 0.1s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+    }
+
+    .menu-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--accent-border);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .menu-card-label {
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #e5e7eb;
+    }
+
+    .menu-card-label-muted {
+      color: var(--text-muted);
+    }
+
+    /* Holdings Section */
+    .holdings-section {
+      margin-top: 20px;
+    }
+
+    .holdings-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+
+    .holdings-title {
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .holdings-subtitle {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .holdings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 10px;
+    }
+
+    .holding-card {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      transition: transform 0.08s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      min-height: 80px;
+    }
+
+    .holding-card:hover {
+      transform: translateY(-1px);
+      border-color: var(--accent-border);
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .holding-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .holding-ticker {
+      font-size: 0.78rem;
+      color: #e5e7eb;
+      border-radius: 999px;
+      padding: 2px 8px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      align-self: flex-start;
+    }
+
+    .holding-coverage {
+      font-size: 0.7rem;
+      border-radius: 999px;
+      padding: 2px 8px;
+      align-self: flex-start;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .coverage-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+    }
+
+    .coverage-active {
+      background: rgba(34, 197, 94, 0.14);
+      color: #bbf7d0;
+      border-color: rgba(34, 197, 94, 0.8);
+    }
+
+    .coverage-active .coverage-dot {
+      background: #22c55e;
+    }
+
+    .coverage-inactive {
+      background: rgba(249, 115, 22, 0.16);
+      color: #fed7aa;
+      border-color: rgba(249, 115, 22, 0.8);
+    }
+
+    .coverage-inactive .coverage-dot {
+      background: #f97316;
+    }
+
+    .coverage-unknown {
+      background: rgba(148, 163, 184, 0.1);
+      color: #e5e7eb;
+      border-color: rgba(148, 163, 184, 0.7);
+    }
+
+    .coverage-unknown .coverage-dot {
+      background: #9ca3af;
+    }
+
+    .holdings-empty {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      padding: 10px 4px;
+    }
+
+    /* Menu View */
+    .menu-view {
+      margin-top: 20px;
+      display: none;
+    }
+
+    .menu-view-inner {
+      padding: 20px 18px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .menu-view-title {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .menu-view-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .portfolio-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .portfolio-controls-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .portfolio-upload-btn {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,1);
+      color: #e5e7eb;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .portfolio-upload-btn:hover {
+      background: rgba(15,23,42,0.95);
+    }
+
+    .table-container {
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+      overflow-x: hidden;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.74rem;
+      table-layout: fixed;
+    }
+
+    .data-table thead {
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .data-table th,
+    .data-table td {
+      padding: 6px 4px;
+      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
+      text-align: center;
+      vertical-align: middle;
+      overflow-wrap: break-word;
+      word-break: break-word;
+    }
+
+    .data-table th {
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 0.68rem;
+      color: #9ca3af;
+      white-space: normal;
+    }
+
+    .data-table td {
+      color: #e5e7eb;
+      white-space: normal;
+    }
+
+    .data-table tbody tr:nth-child(even) {
+      background: rgba(15, 23, 42, 0.35);
+    }
+
+    .sortable {
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .sort-indicator {
+      margin-left: 4px;
+      font-size: 0.7rem;
+      opacity: 0.8;
+    }
+
+    .placeholder {
+      margin-top: 24px;
+      padding: 18px;
+      border-radius: var(--radius-lg);
+      border: 1px dashed rgba(148,163,184,0.5);
+      text-align: left;
+      color: var(--text-muted);
+      background: radial-gradient(circle at top left, #020617, #020617);
+    }
+
+    .snapshot-card {
+      margin-top: 24px;
+      padding: 20px 18px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      box-shadow: var(--shadow-soft);
+      animation: fadeIn .2s ease-out;
+    }
+
+    .snapshot-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .snapshot-title-group h1 {
+      font-size: 1.1rem;
+      margin-bottom: 3px;
+    }
+
+    .ticker-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.7);
+      font-size: 0.75rem;
+      color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .snapshot-meta {
+      text-align: right;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .snapshot-meta .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(79, 70, 229, 0.7);
+      background: var(--accent-soft);
+      color: #c7d2fe;
+      margin-bottom: 4px;
+      font-size: 0.72rem;
+    }
+
+    .section {
+      margin-top: 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top left, #020617, #020617);
+      padding: 14px 14px 10px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      gap: 8px;
+    }
+
+    .section-header-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .section-title {
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+
+    .reports-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .report-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 10px 10px;
+      border-radius: 12px;
+      border: 1px solid rgba(31, 41, 55, 0.9);
+      background: radial-gradient(circle at top left, #020617, #020617);
+    }
+
+    .report-main {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .report-title {
+      font-size: 0.88rem;  
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .report-meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 3px;
+      height: 3px;
+      border-radius: 999px;
+      background: #6b7280;
+      align-self: center;
+    }
+
+    .report-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .btn {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 0.8rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
+    }
+
+    .btn-download {
+      background: var(--accent);
+      color: #e5e7eb;
+      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.7);
+      text-decoration: none;
+    }
+
+    .btn-download:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.9);
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 1);
+      color: #e5e7eb;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      text-decoration: none;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .btn-icon {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .empty-state {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      padding: 8px 2px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 18px;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-border);
+      box-shadow: var(--shadow-soft);
+      opacity: 0;
+      transition: opacity .3s ease;
+      z-index: 200;
+    }
+    .toast.show { opacity: 1; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+
+    <!-- HEADER -->
+    <header class="header">
+      <div class="brand-row">
+        <div class="brand-left">
+          <div class="brand-title">Taylor Hoffman Inc.</div>
+          <div class="brand-subtitle">Internal Equity Research Portal</div>
+        </div>
+        <button id="backBtn" class="back-btn" type="button">Back to Menu</button>
+      </div>
+
+      <div class="search-upload-row">
+        <div class="search-container">
+          <div class="search-box">
+            <input
+              id="companySearch"
+              class="search-input"
+              type="text"
+              placeholder="Search by company or ticker…"
+              autocomplete="off"
+            />
+          </div>
+          <div id="resultsDropdown" class="results-dropdown"></div>
+        </div>
+
+        <button class="btn-upload" id="uploadBtn">Upload Companies</button>
+        <input type="file" id="fileInput" accept=".csv" style="display:none;" />
+      </div>
+    </header>
+
+    <!-- MENU HUB -->
+    <section id="menuHub" class="menu-hub">
+      <div class="menu-card" data-view="portfolio">
+        <span class="menu-card-label">Portfolio Rankings</span>
+      </div>
+      <div class="menu-card" data-view="placeholder-1">
+        <span class="menu-card-label menu-card-label-muted">Placeholder One</span>
+      </div>
+      <div class="menu-card" data-view="placeholder-2">
+        <span class="menu-card-label menu-card-label-muted">Placeholder Two</span>
+      </div>
+      <div class="menu-card" data-view="placeholder-3">
+        <span class="menu-card-label menu-card-label-muted">Placeholder Three</span>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO HOLDINGS -->
+    <section id="holdingsSection" class="holdings-section">
+      <div class="holdings-header">
+        <div class="holdings-title">Portfolio Holdings</div>
+        <div class="holdings-subtitle">
+          Coverage universe tiles – click any company to open its snapshot.
+        </div>
+      </div>
+
+      <div id="holdingsGrid" class="holdings-grid">
+        <!-- Filled by JS -->
+      </div>
+    </section>
+
+    <!-- MENU VIEW -->
+    <section id="menuView" class="menu-view"></section>
+
+    <!-- RESEARCH SNAPSHOTS -->
+    <main>
+      <div id="placeholder" class="placeholder">
+        Upload a company list CSV or select a company to view its snapshot.
+      </div>
+      <div id="snapshotContainer"></div>
+    </main>
+
+  </div>
+
+  <!-- Hidden inputs -->
+  <input type="file" id="reportFileInput" accept="application/pdf" multiple style="display:none;" />
+  <input type="file" id="portfolioFileInput" accept=".csv" style="display:none;" />
+
+  <div id="toast" class="toast"></div>
+
+  <!-- FULL APPLICATION LOGIC -->
+  <script>
+    /********* STATE *********/
+    let companies = loadCompanies();
+    let currentReportCompanyId = null;
+    let activeView = "menu";
+
+    let portfolioData = [];
+    let portfolioSort = { key: "totalScore", direction: "desc" };
+
+    /********* ELEMENTS *********/
+    const searchInput = document.getElementById("companySearch");
+    const resultsDropdown = document.getElementById("resultsDropdown");
+    const snapshotContainer = document.getElementById("snapshotContainer");
+    const placeholder = document.getElementById("placeholder");
+    const toast = document.getElementById("toast");
+    const fileInput = document.getElementById("fileInput");
+    const uploadBtn = document.getElementById("uploadBtn");
+    const reportFileInput = document.getElementById("reportFileInput");
+    const portfolioFileInput = document.getElementById("portfolioFileInput");
+
+    const menuHub = document.getElementById("menuHub");
+    const menuView = document.getElementById("menuView");
+    const backBtn = document.getElementById("backBtn");
+    const mainSection = document.querySelector("main");
+    const holdingsGrid = document.getElementById("holdingsGrid");
+
+
+    /********* STORAGE *********/
+    function saveCompanies(data) {
+      const sanitized = data.map(c => ({
+        id: c.id,
+        ticker: c.ticker,
+        name: c.name,
+        sector: c.sector,
+        coverage: c.coverage
+      }));
+      localStorage.setItem("companies", JSON.stringify(sanitized));
+    }
+
+    function loadCompanies() {
+      const raw = localStorage.getItem("companies");
+      if (!raw) return [];
+      try {
+        const arr = JSON.parse(raw);
+        return arr.map(c => ({ ...c, reports: [] }));
+      } catch {
+        return [];
+      }
+    }
+
+
+    /********* TOAST *********/
+    function showToast(msg, ok = true) {
+      toast.textContent = msg;
+      toast.style.borderColor = ok ? "var(--accent-border)" : "var(--danger)";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2500);
+    }
+
+
+    /********* COVERAGE COLOR FIX *********/
+    function getCoverageClass(coverageRaw) {
+      const cov = (coverageRaw || "").toLowerCase();
+
+      // FIXED: check 'inactive' BEFORE 'active'
+      if (cov.includes("inactive") || cov.includes("watchlist")) {
+        return "coverage-inactive";  // ORANGE
+      }
+
+      if (cov.includes("active")) {
+        return "coverage-active"; // GREEN
+      }
+
+      return "coverage-unknown";   // GRAY
+    }
+
+
+    /********* RENDER HOLDINGS GRID *********/
+    function renderHoldingsGrid() {
+      if (!companies.length) {
+        holdingsGrid.innerHTML = `
+          <div class="holdings-empty">
+            No companies loaded yet. Upload a coverage CSV to see holdings tiles here.
+          </div>
+        `;
+        return;
+      }
+
+      const sorted = [...companies].sort((a, b) =>
+        (a.name || "").localeCompare(b.name || "")
+      );
+
+      holdingsGrid.innerHTML = sorted
+        .map(c => {
+          const covClass = getCoverageClass(c.coverage);
+          return `
+            <div class="holding-card" data-id="${c.id}">
+              <div class="holding-name" title="${c.name}">${c.name}</div>
+              <div class="holding-ticker">${c.ticker}</div>
+              <div class="holding-coverage ${covClass}">
+                <span class="coverage-dot"></span>
+                <span>${c.coverage || "Unspecified"}</span>
+              </div>
+            </div>
+          `;
+        })
+        .join("");
+    }
+
+    holdingsGrid.addEventListener("click", (e) => {
+      const card = e.target.closest(".holding-card");
+      if (!card) return;
+
+      const id = card.dataset.id;
+      const company = companies.find(c => c.id === id);
+      if (!company) return;
+
+      showMenu(); // back to main view
+      searchInput.value = `${company.name} (${company.ticker})`;
+      renderCompanySnapshot(company);
+    });
+
+
+    /********* COMPANY CSV UPLOAD *********/
+    uploadBtn.addEventListener("click", () => fileInput.click());
+    fileInput.addEventListener("change", handleCompanyUpload);
+
+    function handleCompanyUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          companies = parseCompanyCSV(evt.target.result);
+          saveCompanies(companies);
+          showToast("Companies uploaded.");
+          renderHoldingsGrid();
+        } catch (err) {
+          showToast(err.message, false);
+        } finally {
+          fileInput.value = "";
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function parseCompanyCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) throw new Error("CSV must contain header row.");
+
+      const headers = lines[0].split(",").map(x => x.trim().toLowerCase());
+      const idxTicker = headers.indexOf("ticker");
+      const idxName = headers.indexOf("name");
+      const idxSector = headers.indexOf("sector");
+      const idxCoverage = headers.indexOf("coverage");
+
+      if (idxTicker === -1 || idxName === -1)
+        throw new Error("CSV must include Ticker and Name columns.");
+
+      const out = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].trim();
+        if (!row) continue;
+
+        const cols = row.split(",");
+
+        const ticker = (cols[idxTicker] || "").trim();
+        const name = (cols[idxName] || "").trim();
+        if (!ticker || !name) continue;
+
+        const sector = idxSector !== -1 ? (cols[idxSector] || "").trim() : "";
+        const coverage = idxCoverage !== -1 ? (cols[idxCoverage] || "").trim() : "";
+
+        out.push({
+          id: ticker,
+          ticker,
+          name,
+          sector: sector || "—",
+          coverage: coverage || "Unspecified",
+          reports: []
+        });
+      }
+
+      return out;
+    }
+
+
+    /********* MENU NAVIGATION *********/
+    menuHub.addEventListener("click", (e) => {
+      const card = e.target.closest(".menu-card");
+      if (!card) return;
+      const view = card.dataset.view;
+      openMenuView(view);
+    });
+
+    backBtn.addEventListener("click", showMenu);
+
+    function openMenuView(view) {
+      activeView = view;
+      menuHub.style.display = "none";
+      holdingsSection.style.display = "none";
+      mainSection.style.display = "none";
+      backBtn.style.display = "inline-flex";
+
+      menuView.style.display = "block";
+      menuView.innerHTML = buildViewContent(view);
+
+      if (view === "portfolio") {
+        setupPortfolioView();
+      }
+    }
+
+    function showMenu() {
+      activeView = "menu";
+      menuHub.style.display = "grid";
+      holdingsSection.style.display = "block";
+      mainSection.style.display = "block";
+      backBtn.style.display = "none";
+      menuView.style.display = "none";
+    }
+
+    function buildViewContent(view) {
+      if (view === "portfolio") {
+        return `
+          <div class="menu-view-inner">
+            <div class="portfolio-controls">
+              <div class="portfolio-controls-left">
+                <h2 class="menu-view-title">Portfolio Rankings</h2>
+                <p class="menu-view-subtitle">Upload rankings CSV to populate the sortable table.</p>
+              </div>
+              <button id="portfolioUploadBtn" class="portfolio-upload-btn">Upload Rankings CSV</button>
+            </div>
+
+            <div id="portfolioTableContainer"></div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="menu-view-inner">
+          <h2 class="menu-view-title">Placeholder</h2>
+          <p class="menu-view-subtitle">Reserved for future internal tools.</p>
+        </div>
+      `;
+    }
+
+
+    /********* PORTFOLIO UPLOAD *********/
+    portfolioFileInput.addEventListener("change", handlePortfolioUpload);
+
+    function setupPortfolioView() {
+      const btn = document.getElementById("portfolioUploadBtn");
+      if (btn) btn.addEventListener("click", () => portfolioFileInput.click());
+      renderPortfolioTable();
+    }
+
+    function handlePortfolioUpload(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+
+      const reader = new FileReader();
+      reader.onload = evt => {
+        try {
+          portfolioData = parsePortfolioCSV(evt.target.result);
+          portfolioSort = { key: "totalScore", direction: "desc" };
+          showToast("Portfolio uploaded.");
+          renderPortfolioTable();
+        } catch (err) {
+          showToast(err.message, false);
+        } finally {
+          portfolioFileInput.value = "";
+        }
+      };
+      reader.readAsText(f);
+    }
+
+    function parsePortfolioCSV(text) {
+      const lines = text.trim().split(/\r?\n/);
+      if (lines.length < 2) throw new Error("Invalid CSV");
+
+      const headers = lines[0].split(",").map(x => x.trim().toLowerCase());
+
+      const req = [
+        "ticker","company","total score","quality score","value score","growth score",
+        "roic","fcf yield","p/e","forward p/e","current price",
+        "relative valuation price","premium/discount %"
+      ];
+
+      const idx = {};
+      for (const h of req) {
+        const i = headers.indexOf(h);
+        if (i === -1) throw new Error(`Missing column: ${h}`);
+        idx[h] = i;
+      }
+
+      const out = [];
+      for (let i = 1; i < lines.length; i++) {
+        const row = lines[i].trim();
+        if (!row) continue;
+
+        const c = row.split(",");
+        const get = h => (c[idx[h]] || "").trim();
+
+        out.push({
+          ticker: get("ticker"),
+          company: get("company"),
+          totalScore: get("total score"),
+          qualityScore: get("quality score"),
+          valueScore: get("value score"),
+          growthScore: get("growth score"),
+          roic: get("roic"),
+          fcfYield: get("fcf yield"),
+          pe: get("p/e"),
+          forwardPe: get("forward p/e"),
+          currentPrice: get("current price"),
+          relativeValuationPrice: get("relative valuation price"),
+          premiumDiscountPct: get("premium/discount %")
+        });
+      }
+
+      return out;
+    }
+
+
+    /********* PORTFOLIO SORTING + TABLE *********/
+    function applyPortfolioSort() {
+      const key = portfolioSort.key;
+      const dir = portfolioSort.direction === "asc" ? 1 : -1;
+
+      portfolioData.sort((a, b) => {
+        const va = a[key];
+        const vb = b[key];
+
+        if (key === "ticker" || key === "company") {
+          return va.localeCompare(vb) * dir;
+        }
+
+        const na = parseFloat(va);
+        const nb = parseFloat(vb);
+        if (isNaN(na)) return 1;
+        if (isNaN(nb)) return -1;
+        return (na - nb) * dir;
+      });
+    }
+
+    function renderPortfolioTable() {
+      const container = document.getElementById("portfolioTableContainer");
+      if (!container) return;
+
+      if (!portfolioData.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            No data loaded. Upload a Rankings CSV.
+          </div>
+        `;
+        return;
+      }
+
+      applyPortfolioSort();
+
+      const h = (label, key) => {
+        const arrow = portfolioSort.key === key
+          ? (portfolioSort.direction === "asc" ? "▲" : "▼")
+          : "";
+        return `
+          <th class="sortable" data-key="${key}">
+            ${label} <span class="sort-indicator">${arrow}</span>
+          </th>
+        `;
+      };
+
+      container.innerHTML = `
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                ${h("Ticker","ticker")}
+                ${h("Company","company")}
+                ${h("Total Score","totalScore")}
+                ${h("Quality","qualityScore")}
+                ${h("Value","valueScore")}
+                ${h("Growth","growthScore")}
+                ${h("ROIC","roic")}
+                ${h("FCF Yield","fcfYield")}
+                ${h("P/E","pe")}
+                ${h("Fwd P/E","forwardPe")}
+                ${h("Price","currentPrice")}
+                ${h("RV Price","relativeValuationPrice")}
+                ${h("Prem/Disc %","premiumDiscountPct")}
+              </tr>
+            </thead>
+
+            <tbody>
+              ${portfolioData.map(r => `
+                <tr>
+                  <td>${r.ticker}</td>
+                  <td>${r.company}</td>
+                  <td>${r.totalScore}</td>
+                  <td>${r.qualityScore}</td>
+                  <td>${r.valueScore}</td>
+                  <td>${r.growthScore}</td>
+                  <td>${r.roic}</td>
+                  <td>${r.fcfYield}</td>
+                  <td>${r.pe}</td>
+                  <td>${r.forwardPe}</td>
+                  <td>${r.currentPrice}</td>
+                  <td>${r.relativeValuationPrice}</td>
+                  <td>${r.premiumDiscountPct}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      attachSortHandlers();
+    }
+
+    function attachSortHandlers() {
+      const headers = document.querySelectorAll("th.sortable");
+      headers.forEach(th => {
+        th.onclick = () => {
+          const key = th.dataset.key;
+          if (!key) return;
+
+          if (portfolioSort.key === key) {
+            portfolioSort.direction = portfolioSort.direction === "asc" ? "desc" : "asc";
+          } else {
+            portfolioSort.key = key;
+            portfolioSort.direction = "desc";
+          }
+
+          renderPortfolioTable();
+        };
+      });
+    }
+
+
+    /********* SEARCH *********/
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.trim().toLowerCase();
+      if (!q) return clearDropdown();
+
+      const matches = companies.filter(c =>
+        c.name.toLowerCase().includes(q) ||
+        c.ticker.toLowerCase().includes(q)
+      );
+
+      renderDropdown(matches);
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!searchInput.contains(e.target) && !resultsDropdown.contains(e.target)) {
+        clearDropdown();
+      }
+    });
+
+    function renderDropdown(list) {
+      if (!list.length) {
+        resultsDropdown.innerHTML = `<div class="empty-state" style="padding:10px 14px;">No results.</div>`;
+      } else {
+        resultsDropdown.innerHTML = list.map(c => `
+          <div class="result-item" data-id="${c.id}">
+            <div class="result-main">
+              <div class="result-name">${c.name}</div>
+              <div class="result-sector">${c.sector}</div>
+            </div>
+            <div class="result-ticker-pill">${c.ticker}</div>
+          </div>
+        `).join("");
+      }
+
+      resultsDropdown.classList.add("visible");
+    }
+
+    resultsDropdown.addEventListener("click", (e) => {
+      const item = e.target.closest(".result-item");
+      if (!item) return;
+
+      const id = item.dataset.id;
+      const c = companies.find(x => x.id === id);
+      if (!c) return;
+
+      showMenu();
+      searchInput.value = `${c.name} (${c.ticker})`;
+      renderCompanySnapshot(c);
+      clearDropdown();
+    });
+
+    function clearDropdown() {
+      resultsDropdown.innerHTML = "";
+      resultsDropdown.classList.remove("visible");
+    }
+
+
+    /********* REPORT UPLOAD *********/
+    reportFileInput.addEventListener("change", handleReportUpload);
+
+    function handleReportUpload(e) {
+      const files = Array.from(e.target.files || []);
+      if (!currentReportCompanyId || !files.length) return;
+
+      const company = companies.find(c => c.id === currentReportCompanyId);
+      if (!company) return;
+
+      files.forEach(file => {
+        if (file.type !== "application/pdf") return;
+
+        const url = URL.createObjectURL(file);
+        const now = Date.now();
+        const title = file.name.replace(/\.pdf$/i,"");
+
+        company.reports.push({
+          id: `${now}-${file.name}`,
+          title,
+          date: new Date().toISOString().slice(0,10),
+          type: "Uploaded PDF",
+          author: "Taylor Hoffman Inc.",
+          url,
+          uploadedAt: now
+        });
+      });
+
+      showToast("Reports uploaded.");
+      renderCompanySnapshot(company);
+    }
+
+
+    /********* SNAPSHOT *********/
+    function renderCompanySnapshot(company) {
+      currentReportCompanyId = company.id;
+      placeholder.style.display = "none";
+
+      const reports = [...company.reports].sort((a,b) =>
+        (b.uploadedAt || 0) - (a.uploadedAt || 0)
+      );
+
+      const reportsHtml = reports.length
+        ? reports.map(r => `
+            <div class="report-row">
+              <div class="report-main">
+                <div class="report-title">${r.title}</div>
+                <div class="report-meta">
+                  <span>${r.date}</span>
+                  <span class="dot"></span>
+                  <span>${r.type}</span>
+                  <span class="dot"></span>
+                  <span>${r.author}</span>
+                </div>
+              </div>
+
+              <div class="report-actions">
+                <a class="btn btn-download" href="${r.url}" download>
+                  <svg class="btn-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M5 20h14v-2H5v2zm7-18L5.33 9h3.92v4h5.5V9h3.92L12 2z"/>
+                  </svg>
+                  Download
+                </a>
+                <a class="btn btn-secondary" target="_blank" href="${r.url}">
+                  <svg class="btn-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"/>
+                    <path fill="currentColor" d="M5 5h5V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5h-2v5H5V5z"/>
+                  </svg>
+                  Open
+                </a>
+              </div>
+            </div>
+        `).join("")
+        : `<div class="empty-state">No reports uploaded yet.</div>`;
+
+      snapshotContainer.innerHTML = `
+        <section class="snapshot-card">
+          <header class="snapshot-header">
+            <div class="snapshot-title-group">
+              <h1>${company.name}</h1>
+              <div class="ticker-chip">${company.ticker}</div>
+            </div>
+
+            <div class="snapshot-meta">
+              <div class="badge">
+                <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;"></span>
+                <span>${company.coverage}</span>
+              </div>
+              <div>${company.sector}</div>
+            </div>
+          </header>
+
+          <section class="section">
+            <div class="section-header">
+              <div class="section-header-text">
+                <div class="section-title">Reports</div>
+                <div class="section-subtitle">Uploaded research PDFs</div>
+              </div>
+              <button id="uploadReportBtn" class="btn btn-secondary">Upload PDF</button>
+            </div>
+
+            <div class="reports-list">${reportsHtml}</div>
+          </section>
+        </section>
+      `;
+
+      document.getElementById("uploadReportBtn").onclick = () => {
+        reportFileInput.value = "";
+        reportFileInput.click();
+      };
+    }
+
+
+    /********* INITIAL RENDER *********/
+    renderHoldingsGrid();
+  </script>
+</body>
+</html>
