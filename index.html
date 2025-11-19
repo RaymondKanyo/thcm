@@ -351,7 +351,7 @@
       padding: 10px 4px 2px;
     }
 
-    /* MENU VIEW (PORTFOLIO PAGE, ETC) */
+    /* MENU VIEW (Portfolio page, etc.) */
 
     .menu-view {
       display: none;
@@ -450,7 +450,7 @@
       margin-left: 4px;
     }
 
-    /* SNAPSHOT + REPORTS */
+    /* MAIN + SNAPSHOT */
 
     main {
       margin-top: 6px;
@@ -760,7 +760,7 @@
   <!-- APP SCRIPT WITH FIREBASE + LOGIC -->
   <script type="module">
     /********************************************************
-     *  FIREBASE SETUP (YOUR CONFIG)
+     *  FIREBASE SETUP
      ********************************************************/
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
@@ -769,7 +769,8 @@
       collection,
       getDocs,
       setDoc,
-      doc
+      doc,
+      deleteDoc
     } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
     import {
       getStorage,
@@ -826,7 +827,7 @@
     const holdingsGrid = document.getElementById("holdingsGrid");
 
     /********************************************************
-     *  FIRESTORE HELPERS (COMPANIES + REPORTS)
+     *  FIRESTORE HELPERS (COMPANIES + REPORTS + PORTFOLIO)
      ********************************************************/
     async function loadCompaniesFromFirestore() {
       const snap = await getDocs(collection(db, "companies"));
@@ -871,6 +872,33 @@
         result.push(docSnap.data());
       });
       return result;
+    }
+
+    // --- Portfolio Rankings helpers (new, cloud-backed) ---
+    async function loadPortfolioFromFirestore() {
+      const colRef = collection(db, "portfolioRankings");
+      const snap = await getDocs(colRef);
+      const result = [];
+      snap.forEach((docSnap) => {
+        result.push(docSnap.data());
+      });
+      return result;
+    }
+
+    async function replacePortfolioInFirestore(rows) {
+      const colRef = collection(db, "portfolioRankings");
+
+      // delete all existing docs
+      const existingSnap = await getDocs(colRef);
+      const deletions = existingSnap.docs.map(d => deleteDoc(d.ref));
+      await Promise.all(deletions);
+
+      // write new rows
+      const writes = rows.map(row => {
+        const id = row.ticker || Math.random().toString(36).slice(2);
+        return setDoc(doc(db, "portfolioRankings", id), row);
+      });
+      await Promise.all(writes);
     }
 
     /********************************************************
@@ -1030,7 +1058,7 @@
             <div class="portfolio-controls">
               <div class="portfolio-controls-left">
                 <h2 class="menu-view-title">Portfolio Rankings</h2>
-                <p class="menu-view-subtitle">Upload rankings CSV to populate the sortable table.</p>
+                <p class="menu-view-subtitle">Upload rankings CSV to populate the sortable table. Data is stored in the cloud and reloads on visit.</p>
               </div>
               <button id="portfolioUploadBtn" class="portfolio-upload-btn">Upload Rankings CSV</button>
             </div>
@@ -1072,13 +1100,20 @@
     }
 
     /********************************************************
-     *  PORTFOLIO RANKINGS (LOCAL ONLY FOR NOW)
+     *  PORTFOLIO RANKINGS (NOW CLOUD-BACKED)
      ********************************************************/
     portfolioFileInput.addEventListener("change", handlePortfolioUpload);
 
-    function setupPortfolioView() {
+    async function setupPortfolioView() {
       const btn = document.getElementById("portfolioUploadBtn");
       if (btn) btn.addEventListener("click", () => portfolioFileInput.click());
+
+      try {
+        portfolioData = await loadPortfolioFromFirestore();
+      } catch (err) {
+        console.error("Error loading portfolio from Firestore", err);
+        showToast("Could not load portfolio rankings.", false);
+      }
       renderPortfolioTable();
     }
 
@@ -1127,16 +1162,22 @@
       return out;
     }
 
-    function handlePortfolioUpload(e) {
+    async function handlePortfolioUpload(e) {
       const f = e.target.files[0];
       if (!f) return;
 
       const reader = new FileReader();
-      reader.onload = (evt) => {
+      reader.onload = async (evt) => {
         try {
-          portfolioData = parsePortfolioCSV(evt.target.result);
+          const parsed = parsePortfolioCSV(evt.target.result);
+
+          // Save to Firestore (replace existing portfolio)
+          await replacePortfolioInFirestore(parsed);
+          showToast("Portfolio rankings uploaded to cloud.");
+
+          // Reload from Firestore for a clean copy
+          portfolioData = await loadPortfolioFromFirestore();
           portfolioSort = { key: "totalScore", direction: "desc" };
-          showToast("Portfolio uploaded.");
           renderPortfolioTable();
         } catch (err) {
           console.error(err);
