@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <title>Taylor Hoffman Research Portal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     :root {
       --bg: #050816;
@@ -17,8 +18,8 @@
       --danger: #ef4444;
       --radius-lg: 16px;
       --radius-md: 10px;
-      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.9);
-      --shadow-subtle: 0 10px 30px rgba(15, 23, 42, 0.6);
+      --shadow-soft: 0 18px 45px rgba(15,23,42,0.9);
+      --shadow-subtle: 0 10px 30px rgba(15,23,42,0.6);
     }
 
     * {
@@ -28,19 +29,20 @@
     }
 
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "SF Pro Text", "Segoe UI", sans-serif;
       background: radial-gradient(circle at top, #111827 0, #020617 40%, #020617 100%);
       color: var(--text-main);
       min-height: 100vh;
     }
 
     .page {
-      max-width: 1100px;
+      max-width: 1120px;
       margin: 0 auto;
       padding: 24px 16px 48px;
     }
 
+    /**************** HEADER ****************/
     .header {
       position: sticky;
       top: 0;
@@ -50,31 +52,23 @@
       backdrop-filter: blur(20px);
       background: linear-gradient(
         to bottom,
-        rgba(2, 6, 23, 0.95),
-        rgba(2, 6, 23, 0.88),
+        rgba(2,6,23,0.95),
+        rgba(2,6,23,0.88),
         transparent
       );
     }
 
     .brand-row {
       display: flex;
-      align-items: center;
       justify-content: space-between;
+      align-items: center;
       margin-bottom: 14px;
-      gap: 12px;
-    }
-
-    .brand-left {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
     }
 
     .brand-title {
       font-size: 1.3rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: #e5e7eb;
     }
 
     .brand-subtitle {
@@ -87,24 +81,17 @@
       border-radius: 999px;
       padding: 7px 12px;
       font-size: 0.78rem;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      background: rgba(15, 23, 42, 0.9);
-      color: #e5e7eb;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(15,23,42,0.85);
       cursor: pointer;
-      gap: 6px;
-      align-items: center;
     }
 
-    .back-btn::before {
-      content: "←";
-      font-size: 0.85rem;
-    }
-
+    /**************** SEARCH ****************/
     .search-upload-row {
       display: flex;
-      align-items: center;
-      gap: 12px;
       flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
     }
 
     .search-container {
@@ -115,32 +102,22 @@
 
     .search-box {
       display: flex;
-      align-items: center;
       gap: 8px;
-      background: radial-gradient(circle at top left, #111827, #020617);
-      border-radius: 999px;
+      align-items: center;
+      background: radial-gradient(circle at top left,#111827,#020617);
       padding: 10px 14px;
+      border-radius: 999px;
       border: 1px solid var(--border-subtle);
       box-shadow: var(--shadow-subtle);
     }
 
-    .search-box:focus-within {
-      border-color: var(--accent-border);
-      box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.8), var(--shadow-soft);
-      background: radial-gradient(circle at top left, #020617, #020617);
-    }
-
     .search-input {
-      border: none;
-      outline: none;
-      background: transparent;
-      color: var(--text-main);
       width: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-main);
       font-size: 0.95rem;
-    }
-
-    .search-input::placeholder {
-      color: #6b7280;
+      outline: none;
     }
 
     .results-dropdown {
@@ -154,7 +131,6 @@
       box-shadow: var(--shadow-soft);
       max-height: 260px;
       overflow-y: auto;
-      padding: 6px 0;
       display: none;
       z-index: 40;
     }
@@ -165,250 +141,147 @@
 
     .result-item {
       padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       cursor: pointer;
-      transition: background 0.12s ease;
+      display: flex;
+      justify-content: space-between;
+      transition: background .15s;
     }
 
     .result-item:hover {
-      background-image: linear-gradient(
-        to right,
-        rgba(79, 70, 229, 0.16),
-        transparent
-      );
-    }
-
-    .result-main {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .result-name {
-      font-size: 0.88rem;
-    }
-
-    .result-sector {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-    }
-
-    .result-ticker-pill {
-      border-radius: 999px;
-      padding: 3px 8px;
-      font-size: 0.75rem;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-      color: #e5e7eb;
+      background: rgba(79,70,229,0.16);
     }
 
     .btn-upload {
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 0.8rem;
-      border: none;
-      cursor: pointer;
       background: var(--accent);
+      border: none;
+      padding: 8px 14px;
+      border-radius: 999px;
       color: #e5e7eb;
-      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.7);
+      cursor: pointer;
+      font-size: 0.82rem;
+      box-shadow: 0 10px 30px rgba(79,70,229,0.7);
       white-space: nowrap;
     }
 
-    .btn-upload:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.9);
-    }
-
-    /* MENU HUB */
-
+    /**************** MENU HUB ****************/
     .menu-hub {
+      margin-top: 16px;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
       gap: 14px;
-      margin-bottom: 20px;
     }
 
     .menu-card {
-      border-radius: var(--radius-lg);
       padding: 18px 16px;
-      background: radial-gradient(circle at top left, #0b1020, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow: var(--shadow-subtle);
-      cursor: pointer;
+      min-height: 90px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left,#0b1020,#020617);
+      border: 1px solid rgba(148,163,184,0.35);
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 90px;
-      text-align: center;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      cursor: pointer;
+      transition: .12s ease;
+      box-shadow: var(--shadow-subtle);
     }
 
     .menu-card:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
       border-color: var(--accent-border);
+      box-shadow: 0 16px 40px rgba(15,23,42,0.9);
     }
 
     .menu-card-label {
       font-size: 0.9rem;
-      letter-spacing: 0.08em;
       text-transform: uppercase;
+      letter-spacing: .08em;
     }
 
-    .menu-card-label-muted {
-      color: var(--text-muted);
+    /**************** SNAPSHOT ABOVE HOLDINGS ****************/
+    #snapshotSection {
+      display: none;
+      margin-top: 14px;
     }
 
-    /* HOLDINGS SECTION */
+    .snapshot-card {
+      padding: 20px 18px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(circle at top left,#020617,#020617);
+      border: 1px solid rgba(148,163,184,0.7);
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-soft);
+    }
 
+    .snapshot-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .ticker-chip {
+      padding: 3px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 0.75rem;
+      background: rgba(15,23,42,0.8);
+    }
+
+    /**************** HOLDINGS ****************/
     .holdings-section {
-      margin-bottom: 20px;
-    }
-
-    .holdings-header {
-      margin-bottom: 10px;
-    }
-
-    .holdings-title {
-      font-size: 0.9rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: #9ca3af;
-      margin-bottom: 4px;
-    }
-
-    .holdings-subtitle {
-      font-size: 0.83rem;
-      color: #6b7280;
+      margin-top: 16px;
+      margin-bottom: 24px;
     }
 
     .holdings-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 10px;
       margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      gap: 12px;
     }
 
     .holding-card {
       border-radius: 14px;
-      padding: 10px 10px 9px;
-      background: radial-gradient(circle at top left, #020617, #020617);
-      border: 1px solid rgba(30, 64, 175, 0.7);
+      padding: 10px;
+      background: radial-gradient(circle at top left,#020617,#020617);
+      border: 1px solid rgba(30,64,175,0.7);
       cursor: pointer;
-      transition: transform 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
+      transition: .12s;
     }
 
     .holding-card:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
-      border-color: rgba(129, 140, 248, 0.9);
+      transform: translateY(-2px);
+      border-color: rgba(129,140,248,0.9);
+      box-shadow: 0 12px 30px rgba(15,23,42,0.9);
     }
 
     .holding-name {
       font-size: 0.86rem;
-      margin-bottom: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .holding-ticker {
-      font-size: 0.78rem;
-      color: #9ca3af;
-      margin-bottom: 6px;
-    }
-
-    .holding-coverage {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.75rem;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.5);
-    }
-
-    .coverage-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-    }
-
-    .coverage-active .coverage-dot {
-      background: #22c55e;
-    }
-    .coverage-inactive .coverage-dot {
-      background: #f97316;
-    }
-    .coverage-unknown .coverage-dot {
-      background: #6b7280;
-    }
-
-    .holdings-empty {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      padding: 10px 4px 2px;
-    }
-
-    /* MENU VIEW (Portfolio page, etc.) */
-
+    /**************** MENU VIEW (Portfolio + Stock Universe) ****************/
     .menu-view {
       display: none;
-      margin-bottom: 20px;
+      margin-top: 20px;
     }
 
     .menu-view-inner {
-      margin-top: 4px;
-      padding: 16px 14px 14px;
+      padding: 16px 14px;
       border-radius: var(--radius-lg);
-      background: radial-gradient(circle at top left, #020617, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: radial-gradient(circle at top left,#020617,#020617);
+      border: 1px solid rgba(148,163,184,0.35);
       box-shadow: var(--shadow-soft);
     }
 
-    .menu-view-title {
-      font-size: 1rem;
-      margin-bottom: 3px;
-    }
-
-    .menu-view-subtitle {
-      font-size: 0.84rem;
-      color: var(--text-muted);
-    }
-
-    .portfolio-controls {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-
-    .portfolio-upload-btn {
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 0.8rem;
-      border: none;
-      cursor: pointer;
-      background: var(--accent);
-      color: #e5e7eb;
-      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.7);
-      white-space: nowrap;
-    }
-
-    .portfolio-upload-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.9);
-    }
-
+    /**************** TABLES ****************/
     .table-container {
       width: 100%;
       overflow-x: auto;
       border-radius: 14px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      background: radial-gradient(circle at top left, #020617, #020617);
+      border: 1px solid rgba(55,65,81,0.9);
+      margin-top: 12px;
     }
 
     .data-table {
@@ -417,351 +290,149 @@
       font-size: 0.8rem;
     }
 
-    .data-table th,
-    .data-table td {
-      padding: 6px 6px;
-      text-align: center;
-      border-bottom: 1px solid rgba(31, 41, 55, 0.9);
-      white-space: nowrap;
+    .data-table th {
+      cursor: pointer;
+      padding: 8px 6px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+      background: rgba(15,23,42,0.95);
     }
 
-    .data-table thead {
-      background: rgba(15, 23, 42, 0.95);
-      position: sticky;
-      top: 0;
-      z-index: 1;
+    .data-table td {
+      padding: 7px 6px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+      text-align: center;
+      white-space: nowrap;
     }
 
     .data-table tbody tr:nth-child(even) {
-      background: rgba(15, 23, 42, 0.6);
+      background: rgba(15,23,42,0.55);
     }
 
     .data-table tbody tr:hover {
-      background: rgba(30, 64, 175, 0.35);
-    }
-
-    th.sortable {
-      cursor: pointer;
+      background: rgba(30,64,175,0.3);
     }
 
     .sort-indicator {
-      font-size: 0.7rem;
-      opacity: 0.7;
       margin-left: 4px;
+      font-size: 0.7rem;
+      opacity: .7;
     }
 
-    /* MAIN + SNAPSHOT */
-
-    main {
-      margin-top: 6px;
-    }
-
-    .placeholder {
-      margin-top: 10px;
-      padding: 16px 14px;
-      border-radius: var(--radius-lg);
-      border: 1px dashed rgba(148, 163, 184, 0.7);
-      color: var(--text-muted);
-      font-size: 0.86rem;
-      background: radial-gradient(circle at top left, #020617, #020617);
-    }
-
-    .snapshot-card {
-      margin-top: 16px;
-      padding: 20px 18px;
-      border-radius: var(--radius-lg);
-      background: radial-gradient(circle at top left, #020617, #020617);
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .snapshot-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .snapshot-title-group h1 {
-      font-size: 1.1rem;
-      margin-bottom: 4px;
-    }
-
-    .ticker-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 2px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.7);
-      font-size: 0.75rem;
-      color: #e5e7eb;
-      background: rgba(15, 23, 42, 0.8);
-    }
-
-    .snapshot-meta {
-      text-align: right;
-      font-size: 0.78rem;
-      color: var(--text-muted);
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid rgba(79, 70, 229, 0.7);
-      background: var(--accent-soft);
-      color: #c7d2fe;
-      margin-bottom: 4px;
-      font-size: 0.72rem;
-    }
-
-    .section {
-      margin-top: 10px;
-      border-radius: var(--radius-md);
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      background: radial-gradient(circle at top left, #020617, #020617);
-      padding: 14px 14px 10px;
-    }
-
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-      gap: 8px;
-    }
-
-    .section-title {
-      font-size: 0.85rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: #9ca3af;
-    }
-
-    .section-subtitle {
-      font-size: 0.8rem;
-      color: #6b7280;
-    }
-
-    .reports-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .report-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(31, 41, 55, 0.9);
-      background: radial-gradient(circle at top left, #020617, #020617);
-    }
-
-    .report-main {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      min-width: 0;
-    }
-
-    .report-title {
-      font-size: 0.88rem;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .report-meta {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .dot {
-      width: 3px;
-      height: 3px;
-      border-radius: 999px;
-      background: #6b7280;
-      align-self: center;
-    }
-
-    .report-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-    }
-
-    .btn {
-      border-radius: 999px;
-      padding: 7px 12px;
-      font-size: 0.8rem;
-      border: none;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      transition: background 0.12s ease, transform 0.08s ease, box-shadow 0.12s ease;
-      text-decoration: none;
-    }
-
-    .btn-download {
-      background: var(--accent);
-      color: #e5e7eb;
-      box-shadow: 0 10px 30px rgba(79, 70, 229, 0.7);
-    }
-
-    .btn-download:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 14px 40px rgba(79, 70, 229, 0.9);
-    }
-
-    .btn-secondary {
-      background: rgba(15, 23, 42, 1);
-      color: #e5e7eb;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-    }
-
-    .btn-secondary:hover {
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .btn-icon {
-      width: 14px;
-      height: 14px;
-      flex-shrink: 0;
-    }
-
-    .empty-state {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      padding: 8px 2px;
-    }
-
+    /**************** TOAST ****************/
     .toast {
       position: fixed;
-      bottom: 20px;
       right: 20px;
+      bottom: 20px;
       padding: 12px 18px;
       border-radius: 12px;
-      font-size: 0.85rem;
       background: var(--bg-elevated);
       border: 1px solid var(--accent-border);
       box-shadow: var(--shadow-soft);
       opacity: 0;
-      transition: opacity .3s ease;
-      z-index: 200;
+      transition: opacity .3s;
+      z-index: 1000;
     }
-    .toast.show { opacity: 1; }
 
-    @media (max-width: 640px) {
-      .brand-row {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .snapshot-header {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .snapshot-meta {
-        text-align: left;
-      }
-    }
+    .toast.show { opacity: 1; }
   </style>
 </head>
+
 <body>
-  <div class="page">
-    <!-- HEADER -->
-    <header class="header">
-      <div class="brand-row">
-        <div class="brand-left">
-          <div class="brand-title">Taylor Hoffman Inc.</div>
-          <div class="brand-subtitle">Internal Equity Research Portal</div>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="brand-row">
+      <div>
+        <div class="brand-title">Taylor Hoffman Inc.</div>
+        <div class="brand-subtitle">Internal Equity Research Portal</div>
+      </div>
+      <button id="backBtn" class="back-btn">← Back</button>
+    </div>
+
+    <div class="search-upload-row">
+      <div class="search-container">
+        <div class="search-box">
+          <input id="companySearch" class="search-input"
+            type="text" placeholder="Search by company or ticker…"/>
         </div>
-        <button id="backBtn" class="back-btn" type="button">Back to Menu</button>
+        <div id="resultsDropdown" class="results-dropdown"></div>
       </div>
 
-      <div class="search-upload-row">
-        <div class="search-container">
-          <div class="search-box">
-            <input
-              id="companySearch"
-              class="search-input"
-              type="text"
-              placeholder="Search by company or ticker…"
-              autocomplete="off"
-            />
-          </div>
-          <div id="resultsDropdown" class="results-dropdown"></div>
-        </div>
+      <button id="uploadBtn" class="btn-upload">Upload Companies CSV</button>
+      <input id="fileInput" type="file" accept=".csv" style="display:none;" />
+    </div>
+  </header>
 
-        <button class="btn-upload" id="uploadBtn">Upload Companies CSV</button>
-        <input type="file" id="fileInput" accept=".csv" style="display:none;" />
-      </div>
-    </header>
-    <!-- MENU HUB -->
-    <section id="menuHub" class="menu-hub">
-      <div class="menu-card" data-view="portfolio">
-        <span class="menu-card-label">Portfolio Rankings</span>
-      </div>
-      <div class="menu-card" data-view="placeholder-1">
-        <span class="menu-card-label menu-card-label-muted">Placeholder One</span>
-      </div>
-      <div class="menu-card" data-view="placeholder-2">
-        <span class="menu-card-label menu-card-label-muted">Placeholder Two</span>
-      </div>
-      <div class="menu-card" data-view="placeholder-3">
-        <span class="menu-card-label menu-card-label-muted">Placeholder Three</span>
-      </div>
-    </section>
+  <!-- MENU HUB -->
+  <section id="menuHub" class="menu-hub">
 
-    <!-- PORTFOLIO HOLDINGS -->
-    <section id="holdingsSection" class="holdings-section">
-      <div class="holdings-header">
-        <div class="holdings-title">Portfolio Holdings</div>
-        <div class="holdings-subtitle">
-          Coverage universe tiles – click any company to open its snapshot.
-        </div>
-      </div>
-      <div id="holdingsGrid" class="holdings-grid">
-        <!-- Filled by JS -->
-      </div>
-    </section>
+    <div class="menu-card" data-view="portfolio">
+      <span class="menu-card-label">Portfolio Rankings</span>
+    </div>
 
-    <!-- MENU VIEW (for Portfolio Rankings, etc.) -->
-    <section id="menuView" class="menu-view"></section>
+    <div class="menu-card" data-view="stockUniverse">
+      <span class="menu-card-label">Stock Universe</span>
+    </div>
 
-    <!-- MAIN RESEARCH VIEW -->
-    <main>
-      <div id="placeholder" class="placeholder">
-        Upload a company list CSV or select a company to view its snapshot and reports.
-      </div>
-      <div id="snapshotContainer"></div>
-    </main>
-  </div>
+    <div class="menu-card" data-view="placeholder1">
+      <span class="menu-card-label">Placeholder</span>
+    </div>
 
-  <!-- Hidden inputs for uploads -->
-  <input type="file" id="reportFileInput" accept="application/pdf" multiple style="display:none;" />
-  <input type="file" id="portfolioFileInput" accept=".csv" style="display:none;" />
+    <div class="menu-card" data-view="placeholder2">
+      <span class="menu-card-label">Placeholder</span>
+    </div>
 
-  <!-- Toast -->
-  <div id="toast" class="toast"></div>
+  </section>
 
-  <!-- APP SCRIPT WITH FIREBASE + LOGIC -->
-  <script type="module">
-    /********************************************************
-     *  FIREBASE SETUP
-     ********************************************************/
+  <!-- SNAPSHOT SECTION (NOW ABOVE HOLDINGS) -->
+  <section id="snapshotSection"></section>
+
+  <!-- HOLDINGS SECTION -->
+  <section id="holdingsSection" class="holdings-section">
+    <h3 style="margin-bottom:6px;letter-spacing:0.14em;text-transform:uppercase;color:#9ca3af;">
+      Portfolio Holdings
+    </h3>
+    <div style="color:#6b7280;font-size:0.84rem;margin-bottom:8px;">
+      Coverage universe tiles — click any company to open its snapshot.
+    </div>
+    <div id="holdingsGrid" class="holdings-grid"></div>
+  </section>
+
+  <!-- MENU VIEW (Portfolio, Stock Universe, etc.) -->
+  <section id="menuView" class="menu-view"></section>
+
+  <!-- PLACEHOLDER + SNAPSHOT (OLD POSITION) -->
+  <main>
+    <div id="placeholder" class="placeholder" style="
+      margin-top:16px;
+      border:1px dashed rgba(148,163,184,0.7);
+      border-radius:var(--radius-lg);
+      padding:18px 16px;
+      color:var(--text-muted);
+      font-size:0.86rem;">
+      Upload a company list CSV or search/select a company to load its snapshot.
+    </div>
+
+    <!-- Snapshot container used by JS -->
+    <div id="snapshotContainer"></div>
+  </main>
+    <!-- Hidden upload inputs -->
+    <input type="file" id="reportFileInput" accept="application/pdf" multiple style="display:none;" />
+    <input type="file" id="portfolioFileInput" accept=".csv" style="display:none;" />
+    <input type="file" id="universeFileInput" accept=".csv" style="display:none;" />
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <!-- ========================= -->
+    <!-- APP SCRIPT (BEGIN JS)     -->
+    <!-- ========================= -->
+    <script type="module">
+
+    /*******************************************************
+     * FIREBASE INITIALIZATION
+     *******************************************************/
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-analytics.js";
     import {
@@ -772,6 +443,7 @@
       doc,
       deleteDoc
     } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
     import {
       getStorage,
       ref,
@@ -794,244 +466,265 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
-    /********************************************************
-     *  STATE
-     ********************************************************/
-    let companies = [];  // from Firestore
-    let currentReportCompanyId = null;
+    /*******************************************************
+     * STATE VARIABLES
+     *******************************************************/
+    let companies = [];
     let activeView = "menu";
+    let currentReportCompanyId = null;
 
+    /* Portfolio data */
     let portfolioData = [];
-    let portfolioSort = { key: "totalScore", direction: "desc" };
+    let portfolioSort = { key:"rank", direction:"asc" };
 
-    /********************************************************
-     *  ELEMENTS
-     ********************************************************/
+    /* Stock Universe data */
+    let universeData = [];
+    let universeSort = { key:"rank", direction:"asc" };
+
+    /*******************************************************
+     * DOM ELEMENTS
+     *******************************************************/
     const searchInput = document.getElementById("companySearch");
     const resultsDropdown = document.getElementById("resultsDropdown");
+    const snapshotSection = document.getElementById("snapshotSection");
     const snapshotContainer = document.getElementById("snapshotContainer");
     const placeholder = document.getElementById("placeholder");
+    const holdingsGrid = document.getElementById("holdingsGrid");
+    const menuView = document.getElementById("menuView");
+    const menuHub = document.getElementById("menuHub");
+    const backBtn = document.getElementById("backBtn");
+    const holdingsSection = document.getElementById("holdingsSection");
+
+    const uploadBtn = document.getElementById("uploadBtn");
+    const fileInput = document.getElementById("fileInput");
+    const portfolioFileInput = document.getElementById("portfolioFileInput");
+    const universeFileInput = document.getElementById("universeFileInput");
+
     const toast = document.getElementById("toast");
 
-    const fileInput = document.getElementById("fileInput");
-    const uploadBtn = document.getElementById("uploadBtn");
-
-    const reportFileInput = document.getElementById("reportFileInput");
-    const portfolioFileInput = document.getElementById("portfolioFileInput");
-
-    const menuHub = document.getElementById("menuHub");
-    const menuView = document.getElementById("menuView");
-    const backBtn = document.getElementById("backBtn");
-    const mainSection = document.querySelector("main");
-    const holdingsSection = document.getElementById("holdingsSection");
-    const holdingsGrid = document.getElementById("holdingsGrid");
-
-    /********************************************************
-     *  FIRESTORE HELPERS (COMPANIES + REPORTS + PORTFOLIO)
-     ********************************************************/
-    async function loadCompaniesFromFirestore() {
-      const snap = await getDocs(collection(db, "companies"));
-      const result = [];
-      snap.forEach((docSnap) => {
-        const data = docSnap.data();
-        result.push({
-          id: docSnap.id,
-          ticker: data.ticker,
-          name: data.name,
-          sector: data.sector,
-          coverage: data.coverage,
-          reports: []
-        });
-      });
-      return result;
+    /*******************************************************
+     * TOAST HELPER
+     *******************************************************/
+    function showToast(msg, ok=true) {
+      toast.textContent = msg;
+      toast.style.borderColor = ok ? "var(--accent-border)" : "var(--danger)";
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 2600);
     }
 
-    async function saveCompaniesToFirestore(companiesArray) {
-      const promises = companiesArray.map((c) => {
-        const refDoc = doc(db, "companies", c.ticker);
-        return setDoc(refDoc, {
+    /*******************************************************
+     * MENU NAVIGATION HANDLING
+     *******************************************************/
+    menuHub.addEventListener("click", (e) => {
+      const card = e.target.closest(".menu-card");
+      if (!card) return;
+      openMenuView(card.dataset.view);
+    });
+
+    backBtn.addEventListener("click", () => showMenu());
+
+    function openMenuView(view) {
+      activeView = view;
+
+      menuHub.style.display = "none";
+      holdingsSection.style.display = "none";
+      snapshotSection.style.display = "none";
+      placeholder.style.display = "none";
+      snapshotContainer.innerHTML = "";
+      backBtn.style.display = "inline-flex";
+
+      menuView.style.display = "block";
+      menuView.innerHTML = buildMenuView(view);
+
+      if (view === "portfolio") setupPortfolioView();
+      if (view === "stockUniverse") setupUniverseView();
+    }
+
+    function showMenu() {
+      activeView = "menu";
+
+      menuHub.style.display = "grid";
+      holdingsSection.style.display = "block";
+      backBtn.style.display = "none";
+
+      snapshotSection.style.display = "none";
+      menuView.style.display = "none";
+      placeholder.style.display = "block";
+
+      snapshotContainer.innerHTML = "";
+    }
+
+    /*******************************************************
+     * MENU VIEW BUILDER
+     *******************************************************/
+    function buildMenuView(view) {
+
+      if (view === "portfolio") {
+        return `
+          <div class="menu-view-inner">
+            <div class="portfolio-controls">
+              <h2 class="menu-view-title">Portfolio Rankings</h2>
+              <button id="portfolioUploadBtn" class="btn-upload">Upload Rankings CSV</button>
+            </div>
+            <div class="menu-view-subtitle">Full CSV template with Rank as first column.</div>
+            <div id="portfolioTableContainer"></div>
+          </div>
+        `;
+      }
+
+      if (view === "stockUniverse") {
+        return `
+          <div class="menu-view-inner">
+            <div class="portfolio-controls">
+              <h2 class="menu-view-title">Stock Universe</h2>
+              <button id="universeUploadBtn" class="btn-upload">Upload Universe CSV</button>
+            </div>
+            <div class="menu-view-subtitle">Matches Portfolio Rankings template exactly.</div>
+            <div id="universeTableContainer"></div>
+          </div>
+        `;
+      }
+
+      return `
+        <div class="menu-view-inner">
+          <h2 class="menu-view-title">Placeholder Section</h2>
+          <div class="menu-view-subtitle">Reserved for future internal tools.</div>
+        </div>
+      `;
+    }
+    /*******************************************************
+     * FIRESTORE HELPERS — LOAD/SAVE COMPANIES
+     *******************************************************/
+    async function loadCompaniesFromFirestore() {
+      const snap = await getDocs(collection(db, "companies"));
+      const out = [];
+      snap.forEach(docSnap => {
+        const d = docSnap.data();
+        out.push({
+          id: docSnap.id,
+          ticker: d.ticker,
+          name: d.name,
+          sector: d.sector,
+          coverage: d.coverage
+        });
+      });
+      return out;
+    }
+
+    async function saveCompaniesToFirestore(arr) {
+      const writes = arr.map(c => {
+        return setDoc(doc(db, "companies", c.ticker), {
           ticker: c.ticker,
           name: c.name,
           sector: c.sector,
           coverage: c.coverage
-        }, { merge: true });
-      });
-      await Promise.all(promises);
-    }
-
-    async function saveReportMetadata(ticker, report) {
-      const refDoc = doc(db, "companies", ticker, "reports", report.id);
-      await setDoc(refDoc, report, { merge: true });
-    }
-
-    async function loadReportsForCompany(ticker) {
-      const colRef = collection(db, "companies", ticker, "reports");
-      const snap = await getDocs(colRef);
-      const result = [];
-      snap.forEach((docSnap) => {
-        result.push(docSnap.data());
-      });
-      return result;
-    }
-
-    // --- Portfolio Rankings helpers (new, cloud-backed) ---
-    async function loadPortfolioFromFirestore() {
-      const colRef = collection(db, "portfolioRankings");
-      const snap = await getDocs(colRef);
-      const result = [];
-      snap.forEach((docSnap) => {
-        result.push(docSnap.data());
-      });
-      return result;
-    }
-
-    async function replacePortfolioInFirestore(rows) {
-      const colRef = collection(db, "portfolioRankings");
-
-      // delete all existing docs
-      const existingSnap = await getDocs(colRef);
-      const deletions = existingSnap.docs.map(d => deleteDoc(d.ref));
-      await Promise.all(deletions);
-
-      // write new rows
-      const writes = rows.map(row => {
-        const id = row.ticker || Math.random().toString(36).slice(2);
-        return setDoc(doc(db, "portfolioRankings", id), row);
+        });
       });
       await Promise.all(writes);
     }
 
-    /********************************************************
-     *  TOAST
-     ********************************************************/
-    function showToast(msg, ok = true) {
-      toast.textContent = msg;
-      toast.style.borderColor = ok ? "var(--accent-border)" : "var(--danger)";
-      toast.classList.add("show");
-      setTimeout(() => toast.classList.remove("show"), 2500);
-    }
-
-    /********************************************************
-     *  COVERAGE CLASS
-     ********************************************************/
-    function getCoverageClass(coverageRaw) {
-      const cov = (coverageRaw || "").toLowerCase();
-
-      if (cov.includes("inactive") || cov.includes("watchlist")) {
-        return "coverage-inactive";
-      }
-      if (cov.includes("active")) {
-        return "coverage-active";
-      }
+    /*******************************************************
+     * LOAD HOLDINGS + RENDER GRID
+     *******************************************************/
+    function getCoverageClass(coverage) {
+      if (!coverage) return "coverage-unknown";
+      const c = coverage.toLowerCase();
+      if (c.includes("inactive") || c.includes("watch")) return "coverage-inactive";
+      if (c.includes("active")) return "coverage-active";
       return "coverage-unknown";
     }
 
-    /********************************************************
-     *  HOLDINGS GRID
-     ********************************************************/
     function renderHoldingsGrid() {
       if (!companies.length) {
         holdingsGrid.innerHTML = `
-          <div class="holdings-empty">
-            No companies loaded yet. Upload a coverage CSV to see holdings tiles here.
+          <div style="color:var(--text-muted);font-size:0.84rem;">
+            No companies loaded yet. Upload CSV.
           </div>
         `;
         return;
       }
 
-      const sorted = [...companies].sort((a, b) =>
-        (a.name || "").localeCompare(b.name || "")
+      const sorted = [...companies].sort((a,b)=>
+        a.name.localeCompare(b.name)
       );
 
-      holdingsGrid.innerHTML = sorted.map(c => {
-        const covClass = getCoverageClass(c.coverage);
-        return `
-          <div class="holding-card" data-id="${c.id}">
-            <div class="holding-name" title="${c.name}">${c.name}</div>
-            <div class="holding-ticker">${c.ticker}</div>
-            <div class="holding-coverage ${covClass}">
-              <span class="coverage-dot"></span>
-              <span>${c.coverage || "Unspecified"}</span>
-            </div>
+      holdingsGrid.innerHTML = sorted.map(c => `
+        <div class="holding-card" data-id="${c.id}">
+          <div class="holding-name">${c.name}</div>
+          <div style="color:#9ca3af;font-size:0.78rem;margin-bottom:4px;">
+            ${c.ticker}
           </div>
-        `;
-      }).join("");
+          <div class="holding-coverage ${getCoverageClass(c.coverage)}"
+               style="display:inline-flex;align-items:center;gap:6px;font-size:0.75rem;
+               border:1px solid rgba(148,163,184,0.5);padding:2px 8px;border-radius:999px;">
+            <span class="coverage-dot"
+              style="width:6px;height:6px;border-radius:50%;"></span>
+            <span>${c.coverage}</span>
+          </div>
+        </div>
+      `).join("");
     }
 
-    holdingsGrid.addEventListener("click", (e) => {
+    holdingsGrid.addEventListener("click",(e)=>{
       const card = e.target.closest(".holding-card");
       if (!card) return;
-
       const id = card.dataset.id;
-      const company = companies.find(c => c.id === id);
-      if (!company) return;
-
-      showMenu();
-      searchInput.value = `${company.name} (${company.ticker})`;
-      renderCompanySnapshot(company);
+      const c = companies.find(x=>x.id===id);
+      if (!c) return;
+      showMenu();  // collapse menu
+      searchInput.value = `${c.name} (${c.ticker})`;
+      renderCompanySnapshot(c);
     });
-    /********************************************************
-     *  COMPANY CSV UPLOAD → FIRESTORE
-     ********************************************************/
-    uploadBtn.addEventListener("click", () => fileInput.click());
+
+    /*******************************************************
+     * COMPANY CSV UPLOAD (COVERAGE)
+     *******************************************************/
+    uploadBtn.addEventListener("click",()=> fileInput.click());
     fileInput.addEventListener("change", handleCompanyUpload);
 
     function parseCompanyCSV(text) {
       const lines = text.trim().split(/\r?\n/);
-      if (lines.length < 2) throw new Error("CSV must contain header row.");
+      if (lines.length < 2) throw new Error("CSV must include header + rows.");
 
-      const headers = lines[0].split(",").map(x => x.trim().toLowerCase());
+      const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
+
       const idxTicker = headers.indexOf("ticker");
       const idxName = headers.indexOf("name");
       const idxSector = headers.indexOf("sector");
       const idxCoverage = headers.indexOf("coverage");
 
-      if (idxTicker === -1 || idxName === -1) {
-        throw new Error("CSV must include 'Ticker' and 'Name' columns.");
-      }
+      if (idxTicker === -1 || idxName === -1)
+        throw new Error("CSV missing required columns: Ticker, Name");
 
       const out = [];
-      for (let i = 1; i < lines.length; i++) {
+      for (let i=1;i<lines.length;i++) {
         const row = lines[i].trim();
         if (!row) continue;
-
         const cols = row.split(",");
-        const ticker = (cols[idxTicker] || "").trim();
-        const name = (cols[idxName] || "").trim();
-        if (!ticker || !name) continue;
-
-        const sector = idxSector !== -1 ? (cols[idxSector] || "").trim() : "";
-        const coverage = idxCoverage !== -1 ? (cols[idxCoverage] || "").trim() : "";
-
         out.push({
-          id: ticker,
-          ticker,
-          name,
-          sector: sector || "—",
-          coverage: coverage || "Unspecified",
-          reports: []
+          id: cols[idxTicker].trim(),
+          ticker: cols[idxTicker].trim(),
+          name: cols[idxName].trim(),
+          sector: idxSector!==-1 ? cols[idxSector].trim() : "—",
+          coverage: idxCoverage!==-1 ? cols[idxCoverage].trim() : "Unspecified"
         });
       }
       return out;
     }
 
-    async function handleCompanyUpload(e) {
-      const file = e.target.files[0];
+    async function handleCompanyUpload(evt) {
+      const file = evt.target.files[0];
       if (!file) return;
-
       const reader = new FileReader();
-      reader.onload = async (evt) => {
+      reader.onload = async e => {
         try {
-          const parsed = parseCompanyCSV(evt.target.result);
-
+          const parsed = parseCompanyCSV(e.target.result);
           await saveCompaniesToFirestore(parsed);
-          showToast("Companies uploaded to cloud.");
-
           companies = await loadCompaniesFromFirestore();
           renderHoldingsGrid();
-        } catch (err) {
-          console.error(err);
-          showToast(err.message || "Failed to upload companies.", false);
+          showToast("Companies uploaded.");
+        } catch(err) {
+          showToast(err.message,false);
         } finally {
           fileInput.value = "";
         }
@@ -1039,111 +732,38 @@
       reader.readAsText(file);
     }
 
-    /********************************************************
-     *  MENU NAVIGATION
-     ********************************************************/
-    menuHub.addEventListener("click", (e) => {
-      const card = e.target.closest(".menu-card");
-      if (!card) return;
-      const view = card.dataset.view;
-      openMenuView(view);
-    });
-
-    backBtn.addEventListener("click", showMenu);
-
-    function buildViewContent(view) {
-      if (view === "portfolio") {
-        return `
-          <div class="menu-view-inner">
-            <div class="portfolio-controls">
-              <div class="portfolio-controls-left">
-                <h2 class="menu-view-title">Portfolio Rankings</h2>
-                <p class="menu-view-subtitle">Upload rankings CSV to populate the sortable table. Data is stored in the cloud and reloads on visit.</p>
-              </div>
-              <button id="portfolioUploadBtn" class="portfolio-upload-btn">Upload Rankings CSV</button>
-            </div>
-            <div id="portfolioTableContainer"></div>
-          </div>
-        `;
-      }
-
-      return `
-        <div class="menu-view-inner">
-          <h2 class="menu-view-title">Placeholder</h2>
-          <p class="menu-view-subtitle">Reserved for future internal tools.</p>
-        </div>
-      `;
-    }
-
-    function openMenuView(view) {
-      activeView = view;
-      menuHub.style.display = "none";
-      holdingsSection.style.display = "none";
-      mainSection.style.display = "none";
-      backBtn.style.display = "inline-flex";
-
-      menuView.style.display = "block";
-      menuView.innerHTML = buildViewContent(view);
-
-      if (view === "portfolio") {
-        setupPortfolioView();
-      }
-    }
-
-    function showMenu() {
-      activeView = "menu";
-      menuHub.style.display = "grid";
-      holdingsSection.style.display = "block";
-      mainSection.style.display = "block";
-      backBtn.style.display = "none";
-      menuView.style.display = "none";
-    }
-
-    /********************************************************
-     *  PORTFOLIO RANKINGS (NOW CLOUD-BACKED)
-     ********************************************************/
-    portfolioFileInput.addEventListener("change", handlePortfolioUpload);
-
-    async function setupPortfolioView() {
-      const btn = document.getElementById("portfolioUploadBtn");
-      if (btn) btn.addEventListener("click", () => portfolioFileInput.click());
-
-      try {
-        portfolioData = await loadPortfolioFromFirestore();
-      } catch (err) {
-        console.error("Error loading portfolio from Firestore", err);
-        showToast("Could not load portfolio rankings.", false);
-      }
-      renderPortfolioTable();
-    }
-
+    /*******************************************************
+     * PORTFOLIO CSV PARSER (Rank as first column)
+     *******************************************************/
     function parsePortfolioCSV(text) {
       const lines = text.trim().split(/\r?\n/);
-      if (lines.length < 2) throw new Error("Invalid CSV");
+      if (lines.length < 2) throw new Error("Invalid CSV — no data.");
 
-      const headers = lines[0].split(",").map(x => x.trim().toLowerCase());
-      const req = [
-        "ticker","company","total score","quality score","value score","growth score",
-        "roic","fcf yield","p/e","forward p/e","current price",
-        "relative valuation price","premium/discount %"
+      const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
+
+      const required = [
+        "rank","ticker","company","total score","quality score",
+        "value score","growth score","roic","fcf yield","p/e",
+        "forward p/e","current price","relative valuation price",
+        "premium/discount %"
       ];
 
       const idx = {};
-      for (const h of req) {
-        const i = headers.indexOf(h);
-        if (i === -1) throw new Error(`Missing column: ${h}`);
-        idx[h] = i;
-      }
+      required.forEach(col => {
+        const i = headers.indexOf(col);
+        if (i===-1) throw new Error(`Missing column: ${col}`);
+        idx[col] = i;
+      });
 
       const out = [];
-      for (let i = 1; i < lines.length; i++) {
+      for (let i=1;i<lines.length;i++) {
         const row = lines[i].trim();
         if (!row) continue;
-
         const c = row.split(",");
-        const get = h => (c[idx[h]] || "").trim();
+        const get = name => c[idx[name]] ? c[idx[name]].trim() : "";
 
         out.push({
+          rank: get("rank"),
           ticker: get("ticker"),
           company: get("company"),
           totalScore: get("total score"),
@@ -1162,77 +782,104 @@
       return out;
     }
 
-    async function handlePortfolioUpload(e) {
-      const f = e.target.files[0];
-      if (!f) return;
+    /*******************************************************
+     * PORTFOLIO — Firestore Replace Entire Collection
+     *******************************************************/
+    async function replacePortfolioInFirestore(rows) {
+      const colRef = collection(db,"portfolioRankings");
+      const snap = await getDocs(colRef);
 
-      const reader = new FileReader();
-      reader.onload = async (evt) => {
-        try {
-          const parsed = parsePortfolioCSV(evt.target.result);
+      // Delete all existing docs
+      const deletes = snap.docs.map(d => deleteDoc(d.ref));
+      await Promise.all(deletes);
 
-          // Save to Firestore (replace existing portfolio)
-          await replacePortfolioInFirestore(parsed);
-          showToast("Portfolio rankings uploaded to cloud.");
-
-          // Reload from Firestore for a clean copy
-          portfolioData = await loadPortfolioFromFirestore();
-          portfolioSort = { key: "totalScore", direction: "desc" };
-          renderPortfolioTable();
-        } catch (err) {
-          console.error(err);
-          showToast(err.message || "Failed to upload portfolio.", false);
-        } finally {
-          portfolioFileInput.value = "";
-        }
-      };
-      reader.readAsText(f);
+      // Write each row
+      const writes = rows.map(r => {
+        const id = r.ticker || Math.random().toString(36).slice(2);
+        return setDoc(doc(db,"portfolioRankings",id), r);
+      });
+      await Promise.all(writes);
     }
 
-    function applyPortfolioSort() {
-      const key = portfolioSort.key;
-      const dir = portfolioSort.direction === "asc" ? 1 : -1;
+    async function loadPortfolioFromFirestore() {
+      const snap = await getDocs(collection(db,"portfolioRankings"));
+      const out = [];
+      snap.forEach(docSnap => out.push(docSnap.data()));
+      return out;
+    }
 
-      portfolioData.sort((a, b) => {
+    /*******************************************************
+     * STOCK UNIVERSE — Same structure as Portfolio
+     *******************************************************/
+    function parseUniverseCSV(text) {
+      return parsePortfolioCSV(text); // identical template
+    }
+
+    async function replaceUniverseInFirestore(rows) {
+      const colRef = collection(db,"stockUniverse");
+      const snap = await getDocs(colRef);
+
+      const deletes = snap.docs.map(d => deleteDoc(d.ref));
+      await Promise.all(deletes);
+
+      const writes = rows.map(r=>{
+        const id = r.ticker || Math.random().toString(36).slice(2);
+        return setDoc(doc(db,"stockUniverse",id), r);
+      });
+      await Promise.all(writes);
+    }
+
+    async function loadUniverseFromFirestore() {
+      const snap = await getDocs(collection(db,"stockUniverse"));
+      const out = [];
+      snap.forEach(docSnap => out.push(docSnap.data()));
+      return out;
+    }
+
+    /*******************************************************
+     * SHARED SORTING LOGIC
+     *******************************************************/
+    function sortTable(data, sort) {
+      const { key, direction } = sort;
+      const dir = direction === "asc" ? 1 : -1;
+
+      data.sort((a,b)=>{
         const va = a[key];
         const vb = b[key];
 
-        if (key === "ticker" || key === "company") {
-          return va.localeCompare(vb) * dir;
-        }
-
+        // Numeric sort if numbers
         const na = parseFloat(va);
         const nb = parseFloat(vb);
-        if (isNaN(na)) return 1;
-        if (isNaN(nb)) return -1;
-        return (na - nb) * dir;
+        if (!isNaN(na) && !isNaN(nb)) return (na-nb)*dir;
+
+        // Otherwise string sort
+        return String(va).localeCompare(String(vb)) * dir;
       });
     }
 
+    /*******************************************************
+     * RENDER PORTFOLIO TABLE
+     *******************************************************/
     function renderPortfolioTable() {
       const container = document.getElementById("portfolioTableContainer");
-      if (!container) return;
-
       if (!portfolioData.length) {
         container.innerHTML = `
-          <div class="empty-state">
-            No data loaded. Upload a Rankings CSV.
+          <div style="padding:10px;color:var(--text-muted);">
+            No data loaded. Upload a Portfolio CSV.
           </div>
         `;
         return;
       }
 
-      applyPortfolioSort();
+      sortTable(portfolioData, portfolioSort);
 
       const h = (label, key) => {
-        const arrow = portfolioSort.key === key
-          ? (portfolioSort.direction === "asc" ? "▲" : "▼")
+        const arrow = portfolioSort.key===key
+          ? (portfolioSort.direction==="asc" ? "▲" : "▼")
           : "";
-        return `
-          <th class="sortable" data-key="${key}">
-            ${label} <span class="sort-indicator">${arrow}</span>
-          </th>
-        `;
+        return `<th data-key="${key}">
+          ${label}<span class="sort-indicator">${arrow}</span>
+        </th>`;
       };
 
       container.innerHTML = `
@@ -1240,9 +887,10 @@
           <table class="data-table">
             <thead>
               <tr>
+                ${h("Rank","rank")}
                 ${h("Ticker","ticker")}
                 ${h("Company","company")}
-                ${h("Total Score","totalScore")}
+                ${h("Total","totalScore")}
                 ${h("Quality","qualityScore")}
                 ${h("Value","valueScore")}
                 ${h("Growth","growthScore")}
@@ -1256,8 +904,9 @@
               </tr>
             </thead>
             <tbody>
-              ${portfolioData.map(r => `
+              ${portfolioData.map(r=>`
                 <tr>
+                  <td>${r.rank}</td>
                   <td>${r.ticker}</td>
                   <td>${r.company}</td>
                   <td>${r.totalScore}</td>
@@ -1278,92 +927,216 @@
         </div>
       `;
 
-      attachSortHandlers();
+      attachPortfolioSortHandlers();
     }
 
-    function attachSortHandlers() {
-      const headers = document.querySelectorAll("th.sortable");
+    function attachPortfolioSortHandlers() {
+      const headers = document.querySelectorAll(
+        "#portfolioTableContainer th[data-key]"
+      );
       headers.forEach(th => {
         th.onclick = () => {
           const key = th.dataset.key;
-          if (!key) return;
-
           if (portfolioSort.key === key) {
-            portfolioSort.direction = portfolioSort.direction === "asc" ? "desc" : "asc";
+            portfolioSort.direction = portfolioSort.direction==="asc"?"desc":"asc";
           } else {
             portfolioSort.key = key;
-            portfolioSort.direction = "desc";
+            portfolioSort.direction = "asc";
           }
           renderPortfolioTable();
         };
       });
     }
 
-    /********************************************************
-     *  SEARCH
-     ********************************************************/
-    searchInput.addEventListener("input", () => {
-      const q = searchInput.value.trim().toLowerCase();
-      if (!q) return clearDropdown();
-
-      const matches = companies.filter(c =>
-        c.name.toLowerCase().includes(q) ||
-        c.ticker.toLowerCase().includes(q)
-      );
-      renderDropdown(matches);
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!searchInput.contains(e.target) && !resultsDropdown.contains(e.target)) {
-        clearDropdown();
-      }
-    });
-
-    function renderDropdown(list) {
-      if (!list.length) {
-        resultsDropdown.innerHTML = `
-          <div class="empty-state" style="padding:10px 14px;">
-            No results.
-          </div>`;
-      } else {
-        resultsDropdown.innerHTML = list.map(c => `
-          <div class="result-item" data-id="${c.id}">
-            <div class="result-main">
-              <div class="result-name">${c.name}</div>
-              <div class="result-sector">${c.sector}</div>
-            </div>
-            <div class="result-ticker-pill">${c.ticker}</div>
+    /*******************************************************
+     * RENDER STOCK UNIVERSE TABLE
+     *******************************************************/
+    function renderUniverseTable() {
+      const container = document.getElementById("universeTableContainer");
+      if (!universeData.length) {
+        container.innerHTML = `
+          <div style="padding:10px;color:var(--text-muted);">
+            No data loaded. Upload a Stock Universe CSV.
           </div>
-        `).join("");
+        `;
+        return;
       }
-      resultsDropdown.classList.add("visible");
+
+      sortTable(universeData, universeSort);
+
+      const h = (label, key) => {
+        const arrow = universeSort.key===key
+          ? (universeSort.direction==="asc" ? "▲" : "▼")
+          : "";
+        return `<th data-key="${key}">
+          ${label}<span class="sort-indicator">${arrow}</span>
+        </th>`;
+      };
+
+      container.innerHTML = `
+        <div class="table-container">
+          <table class="data-table">
+            <thead>
+              <tr>
+                ${h("Rank","rank")}
+                ${h("Ticker","ticker")}
+                ${h("Company","company")}
+                ${h("Total","totalScore")}
+                ${h("Quality","qualityScore")}
+                ${h("Value","valueScore")}
+                ${h("Growth","growthScore")}
+                ${h("ROIC","roic")}
+                ${h("FCF Yield","fcfYield")}
+                ${h("P/E","pe")}
+                ${h("Fwd P/E","forwardPe")}
+                ${h("Price","currentPrice")}
+                ${h("RV Price","relativeValuationPrice")}
+                ${h("Prem/Disc %","premiumDiscountPct")}
+              </tr>
+            </thead>
+            <tbody>
+              ${universeData.map(r=>`
+                <tr>
+                  <td>${r.rank}</td>
+                  <td>${r.ticker}</td>
+                  <td>${r.company}</td>
+                  <td>${r.totalScore}</td>
+                  <td>${r.qualityScore}</td>
+                  <td>${r.valueScore}</td>
+                  <td>${r.growthScore}</td>
+                  <td>${r.roic}</td>
+                  <td>${r.fcfYield}</td>
+                  <td>${r.pe}</td>
+                  <td>${r.forwardPe}</td>
+                  <td>${r.currentPrice}</td>
+                  <td>${r.relativeValuationPrice}</td>
+                  <td>${r.premiumDiscountPct}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      attachUniverseSortHandlers();
     }
 
-    resultsDropdown.addEventListener("click", (e) => {
-      const item = e.target.closest(".result-item");
-      if (!item) return;
+    function attachUniverseSortHandlers() {
+      const headers = document.querySelectorAll(
+        "#universeTableContainer th[data-key]"
+      );
+      headers.forEach(th => {
+        th.onclick = () => {
+          const key = th.dataset.key;
+          if (universeSort.key === key) {
+            universeSort.direction =
+              universeSort.direction==="asc" ? "desc" : "asc";
+          } else {
+            universeSort.key = key;
+            universeSort.direction = "asc";
+          }
+          renderUniverseTable();
+        };
+      });
+    }
 
-      const id = item.dataset.id;
-      const c = companies.find(x => x.id === id);
-      if (!c) return;
+    /*******************************************************
+     * SETUP PORTFOLIO VIEW — Load & Display
+     *******************************************************/
+    async function setupPortfolioView() {
+      const btn = document.getElementById("portfolioUploadBtn");
+      btn.onclick = () => portfolioFileInput.click();
 
-      showMenu();
-      searchInput.value = `${c.name} (${c.ticker})`;
-      renderCompanySnapshot(c);
-      clearDropdown();
+      try {
+        portfolioData = await loadPortfolioFromFirestore();
+      } catch(err) {
+        showToast("Error loading portfolio.", false);
+      }
+      renderPortfolioTable();
+    }
+
+    /*******************************************************
+     * SETUP STOCK UNIVERSE VIEW — Load & Display
+     *******************************************************/
+    async function setupUniverseView() {
+      const btn = document.getElementById("universeUploadBtn");
+      btn.onclick = () => universeFileInput.click();
+
+      try {
+        universeData = await loadUniverseFromFirestore();
+      } catch(err) {
+        showToast("Error loading universe.", false);
+      }
+      renderUniverseTable();
+    }
+
+    /*******************************************************
+     * HANDLE PORTFOLIO CSV UPLOAD
+     *******************************************************/
+    portfolioFileInput.addEventListener("change", evt=>{
+      const f = evt.target.files[0];
+      if (!f) return;
+
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const parsed = parsePortfolioCSV(e.target.result);
+          await replacePortfolioInFirestore(parsed);
+          portfolioData = await loadPortfolioFromFirestore();
+          renderPortfolioTable();
+          showToast("Portfolio rankings uploaded.");
+        } catch(err) {
+          showToast(err.message, false);
+        }
+        portfolioFileInput.value = "";
+      };
+      reader.readAsText(f);
     });
 
-    function clearDropdown() {
-      resultsDropdown.innerHTML = "";
-      resultsDropdown.classList.remove("visible");
+    /*******************************************************
+     * HANDLE STOCK UNIVERSE CSV UPLOAD
+     *******************************************************/
+    universeFileInput.addEventListener("change", evt=>{
+      const f = evt.target.files[0];
+      if (!f) return;
+
+      const reader = new FileReader();
+      reader.onload = async e => {
+        try {
+          const parsed = parseUniverseCSV(e.target.result);
+          await replaceUniverseInFirestore(parsed);
+          universeData = await loadUniverseFromFirestore();
+          renderUniverseTable();
+          showToast("Universe uploaded.");
+        } catch(err) {
+          showToast(err.message,false);
+        }
+        universeFileInput.value = "";
+      };
+      reader.readAsText(f);
+    });
+    /*******************************************************
+     * REPORTS: FIRESTORE + STORAGE HELPERS
+     *******************************************************/
+    async function saveReportMetadata(ticker, report) {
+      const refDoc = doc(db, "companies", ticker, "reports", report.id);
+      await setDoc(refDoc, report, { merge: true });
     }
 
-    /********************************************************
-     *  REPORT UPLOAD → STORAGE + FIRESTORE
-     ********************************************************/
-    reportFileInput.addEventListener("change", handleReportUpload);
+    async function loadReportsForCompany(ticker) {
+      const colRef = collection(db, "companies", ticker, "reports");
+      const snap = await getDocs(colRef);
+      const out = [];
+      snap.forEach(docSnap => out.push(docSnap.data()));
+      return out;
+    }
 
-    async function handleReportUpload(e) {
+    /*******************************************************
+     * REPORT PDF UPLOAD HANDLER
+     *******************************************************/
+    const reportFileInput = document.getElementById("reportFileInput");
+
+    reportFileInput.addEventListener("change", async (e) => {
       const files = Array.from(e.target.files || []);
       if (!currentReportCompanyId || !files.length) return;
 
@@ -1372,14 +1145,14 @@
 
       try {
         const tasks = files
-          .filter(file => file.type === "application/pdf")
+          .filter(f => f.type === "application/pdf")
           .map(async (file) => {
             const now = Date.now();
             const reportId = `${now}-${file.name}`;
             const storageRef = ref(storage, `reports/${company.ticker}/${reportId}`);
 
             await uploadBytes(storageRef, file);
-            const downloadURL = await getDownloadURL(storageRef);
+            const url = await getDownloadURL(storageRef);
 
             const report = {
               id: reportId,
@@ -1387,7 +1160,7 @@
               date: new Date().toISOString().slice(0, 10),
               type: "Uploaded PDF",
               author: "Taylor Hoffman Inc.",
-              url: downloadURL,
+              url,
               uploadedAt: now
             };
 
@@ -1396,111 +1169,217 @@
 
         await Promise.all(tasks);
 
-        showToast("Reports uploaded to cloud.");
-
+        showToast("Reports uploaded.");
         const freshReports = await loadReportsForCompany(company.ticker);
-        company.reports = freshReports;
-        renderCompanySnapshot(company);
+        renderCompanySnapshot({ ...company, reports: freshReports });
       } catch (err) {
         console.error(err);
         showToast("Failed to upload reports.", false);
       } finally {
         reportFileInput.value = "";
       }
-    }
+    });
 
-    /********************************************************
-     *  COMPANY SNAPSHOT (LOADS REPORTS FROM FIRESTORE)
-     ********************************************************/
+    /*******************************************************
+     * COMPANY SNAPSHOT (ABOVE HOLDINGS)
+     *******************************************************/
     async function renderCompanySnapshot(company) {
       currentReportCompanyId = company.id;
-      placeholder.style.display = "none";
 
+      // Hide placeholder text and show snapshot section
+      placeholder.style.display = "none";
+      snapshotSection.style.display = "block";
+
+      // Ensure we have latest reports
       const reports = await loadReportsForCompany(company.ticker);
-      const sortedReports = [...reports].sort((a, b) =>
-        (b.uploadedAt || 0) - (a.uploadedAt || 0)
+      const sortedReports = [...reports].sort(
+        (a,b) => (b.uploadedAt || 0) - (a.uploadedAt || 0)
       );
 
       const reportsHtml = sortedReports.length
         ? sortedReports.map(r => `
-            <div class="report-row">
-              <div class="report-main">
-                <div class="report-title">${r.title}</div>
-                <div class="report-meta">
+            <div class="report-row" style="
+              display:flex;justify-content:space-between;
+              gap:12px;padding:10px;border-radius:12px;
+              border:1px solid rgba(31,41,55,0.9);
+              background:radial-gradient(circle at top left,#020617,#020617);
+            ">
+              <div class="report-main" style="min-width:0;">
+                <div class="report-title" style="
+                  font-size:0.88rem;
+                  white-space:nowrap;
+                  overflow:hidden;
+                  text-overflow:ellipsis;">
+                  ${r.title}
+                </div>
+                <div class="report-meta" style="
+                  font-size:0.75rem;
+                  color:var(--text-muted);
+                  display:flex;
+                  flex-wrap:wrap;
+                  gap:8px;">
                   <span>${r.date}</span>
-                  <span class="dot"></span>
+                  <span class="dot" style="
+                    width:3px;height:3px;border-radius:999px;
+                    background:#6b7280;align-self:center;"></span>
                   <span>${r.type}</span>
-                  <span class="dot"></span>
+                  <span class="dot" style="
+                    width:3px;height:3px;border-radius:999px;
+                    background:#6b7280;align-self:center;"></span>
                   <span>${r.author}</span>
                 </div>
               </div>
-              <div class="report-actions">
+              <div class="report-actions" style="display:flex;gap:8px;flex-shrink:0;">
                 <a class="btn btn-download" href="${r.url}" download>
-                  <svg class="btn-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M5 20h14v-2H5v2zm7-18L5.33 9h3.92v4h5.5V9h3.92L12 2z"/>
-                  </svg>
                   Download
                 </a>
-                <a class="btn btn-secondary" target="_blank" href="${r.url}">
-                  <svg class="btn-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M14 3h7v7h-2V6.41l-9.29 9.3-1.42-1.42 9.3-9.29H14V3z"/>
-                    <path fill="currentColor" d="M5 5h5V3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-5h-2v5H5V5z"/>
-                  </svg>
+                <a class="btn btn-secondary" href="${r.url}" target="_blank">
                   Open
                 </a>
               </div>
             </div>
           `).join("")
-        : `<div class="empty-state">No reports uploaded yet.</div>`;
+        : `<div class="empty-state" style="color:var(--text-muted);font-size:0.84rem;">
+             No reports uploaded yet.
+           </div>`;
 
-      snapshotContainer.innerHTML = `
+      snapshotSection.innerHTML = `
         <section class="snapshot-card">
           <header class="snapshot-header">
-            <div class="snapshot-title-group">
-              <h1>${company.name}</h1>
+            <div>
+              <h1 style="font-size:1.1rem;margin-bottom:4px;">${company.name}</h1>
               <div class="ticker-chip">${company.ticker}</div>
             </div>
-            <div class="snapshot-meta">
-              <div class="badge">
-                <span style="width:6px;height:6px;border-radius:50%;background:#22c55e;"></span>
-                <span>${company.coverage}</span>
+            <div style="text-align:right;font-size:0.78rem;color:var(--text-muted);">
+              <div style="
+                display:inline-flex;align-items:center;gap:6px;
+                padding:2px 8px;border-radius:999px;
+                border:1px solid rgba(79,70,229,0.7);
+                background:var(--accent-soft);
+                color:#c7d2fe;
+                margin-bottom:4px;">
+                <span style="
+                  width:6px;height:6px;border-radius:50%;
+                  background:#22c55e;"></span>
+                <span>${company.coverage || "Unspecified"}</span>
               </div>
-              <div>${company.sector}</div>
+              <div>${company.sector || "—"}</div>
             </div>
           </header>
-          <section class="section">
-            <div class="section-header">
-              <div class="section-header-text">
-                <div class="section-title">Reports</div>
-                <div class="section-subtitle">Uploaded research PDFs</div>
+
+          <section class="section" style="
+            margin-top:8px;
+            border-radius:var(--radius-md);
+            border:1px solid rgba(31,41,55,0.9);
+            padding:14px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <div>
+                <div style="font-size:0.85rem;letter-spacing:0.14em;text-transform:uppercase;color:#9ca3af;">
+                  Reports
+                </div>
+                <div style="font-size:0.8rem;color:#6b7280;">
+                  Uploaded research PDFs
+                </div>
               </div>
-              <button id="uploadReportBtn" class="btn btn-secondary">Upload PDF</button>
+              <button id="uploadReportBtn" class="btn btn-secondary">
+                Upload PDF
+              </button>
             </div>
-            <div class="reports-list">
+            <div class="reports-list" style="display:flex;flex-direction:column;gap:8px;">
               ${reportsHtml}
             </div>
           </section>
         </section>
       `;
 
-      document.getElementById("uploadReportBtn").onclick = () => {
+      const uploadReportBtn = document.getElementById("uploadReportBtn");
+      uploadReportBtn.onclick = () => {
         reportFileInput.value = "";
         reportFileInput.click();
       };
     }
 
-    /********************************************************
-     *  INITIAL LOAD
-     ********************************************************/
-    (async () => {
+    /*******************************************************
+     * SEARCH: AUTOCOMPLETE + SELECTION
+     *******************************************************/
+    searchInput.addEventListener("input", () => {
+      const q = searchInput.value.trim().toLowerCase();
+      if (!q) {
+        resultsDropdown.classList.remove("visible");
+        resultsDropdown.innerHTML = "";
+        return;
+      }
+
+      const matches = companies.filter(c =>
+        (c.name || "").toLowerCase().includes(q) ||
+        (c.ticker || "").toLowerCase().includes(q)
+      );
+
+      if (!matches.length) {
+        resultsDropdown.innerHTML = `
+          <div style="padding:10px 14px;color:var(--text-muted);font-size:0.84rem;">
+            No results.
+          </div>
+        `;
+      } else {
+        resultsDropdown.innerHTML = matches.map(c => `
+          <div class="result-item" data-id="${c.id}">
+            <div>
+              <div style="font-size:0.88rem;">${c.name}</div>
+              <div style="font-size:0.76rem;color:var(--text-muted);">
+                ${c.sector || "—"}
+              </div>
+            </div>
+            <div style="
+              border-radius:999px;
+              border:1px solid rgba(148,163,184,0.5);
+              padding:3px 8px;
+              font-size:0.75rem;">
+              ${c.ticker}
+            </div>
+          </div>
+        `).join("");
+      }
+
+      resultsDropdown.classList.add("visible");
+    });
+
+    resultsDropdown.addEventListener("click",(e)=>{
+      const item = e.target.closest(".result-item");
+      if (!item) return;
+
+      const id = item.dataset.id;
+      const c = companies.find(x => x.id === id);
+      if (!c) return;
+
+      showMenu(); // ensures we're in the hub view with holdings visible
+      searchInput.value = `${c.name} (${c.ticker})`;
+      resultsDropdown.classList.remove("visible");
+      resultsDropdown.innerHTML = "";
+      renderCompanySnapshot(c);
+    });
+
+    document.addEventListener("click",(e)=>{
+      if (!resultsDropdown.contains(e.target) &&
+          !searchInput.contains(e.target)) {
+        resultsDropdown.classList.remove("visible");
+      }
+    });
+    /*******************************************************
+     * INITIAL LOAD
+     *******************************************************/
+    (async function init() {
       try {
         companies = await loadCompaniesFromFirestore();
-        renderHoldingsGrid();
       } catch (err) {
-        console.error("Error loading companies from Firestore", err);
+        console.error("Error loading companies:", err);
+        showToast("Failed to load companies from cloud.", false);
+      } finally {
         renderHoldingsGrid();
       }
     })();
-  </script>
+
+    </script>
+  </div> <!-- end .page -->
 </body>
 </html>
